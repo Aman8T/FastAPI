@@ -1,43 +1,20 @@
-from dotenv import load_dotenv
+import os
+from typing import Optional
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import Any, Optional
 import uvicorn
-
-# Load environment variables from .env file (if any)
-load_dotenv()
-
-class Response(BaseModel):
-    result: Optional[str] = None 
-
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:3000"
-    "https://web-production-41bf.up.railway.app"
-]
+import random
 
 app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 @app.get("/")
 def home():
     return {"Hello": "World from FastAPI"}
 
-
-@app.post('/predict',response_model = Response)
-def predict() -> Any:
-  
-  #implement this code block
-  
-  return {"result": "hello world!"}
+# get random number between min(default:0) and max(default:9)
+@app.get("/random/")
+def get_random(min: Optional[int] = 0, max: Optional[int] = 9):
+    rval = random.randint(min, max)
+    return { "value": rval }
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=os.getenv("PORT", default=8080), log_level="info")
+    uvicorn.run("main:app", host="0.0.0.0", port=os.getenv("PORT", default=5000), log_level="info")
