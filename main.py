@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Any, Optional
-
+import uvicorn
 
 # Load environment variables from .env file (if any)
 load_dotenv()
