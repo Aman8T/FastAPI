@@ -27,10 +27,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def home():
+    return {"Hello": "World from FastAPI"}
 
-@app.post(response_model = Response)
+
+@app.post('/predict',response_model = Response)
 def predict() -> Any:
   
   #implement this code block
   
   return {"result": "hello world!"}
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=os.getenv("PORT", default=8080), log_level="info")
