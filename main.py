@@ -28,7 +28,7 @@ app.add_middleware(
 )
 
 
-@app.post("/predict", response_model = Response)
+@app.post(response_model = Response)
 def predict() -> Any:
   
   #implement this code block
